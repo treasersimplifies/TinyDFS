@@ -25,15 +25,15 @@ TDFS使用主从式（Master/Slave）架构。一个集群分为名称节点NN�
 
 ### 1.2 存储文件（Put）流程
 TDFS的存储文件的流程如下图所示：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/TDFS_Put.jpg)
+![](Pics/TDFS_Put.jpg)
 
 ### 1.3 读取文件（Get）流程
 TDFS的读取文件的流程如下图所示：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/TDFS_Get.jpg)
+![](Pics/TDFS_Get.jpg)
 
 ### 1.4 删除文件（Del）流程
 TDFS的删除文件的流程如下图所示：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/TDFS_Del.jpg)
+![](Pics/TDFS_Del.jpg)
 
 ## 2 代码实现
 ### 2.1 项目结构
@@ -350,7 +350,7 @@ TDFSLogger目前只能用来诊断系统故障。
 ** 1）分别在不同的命令行窗口启动四个节点（一个NN节点，三个DN节点）。** 
 需要先启动DN：
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/dnstart.jpg)
+![](Pics/dnstart.jpg)
 
 启动命令的输出，从上往下依次是：DN1的元数据打印、gin框架服务器启动：显示了DN1提供服务的路由。
 
@@ -358,7 +358,7 @@ TDFSLogger目前只能用来诊断系统故障。
 
 然后再启动NN：
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/nnstart.jpg)
+![](Pics/nnstart.jpg)
 
 启动命令的输出，从上往下依次是：未向所有DN请求DN元数据前的NN的元数据打印、得到DN元数据后的NN的元数据打印、gin框架服务器启动：显示了NN提供服务的路由。
 
@@ -366,7 +366,7 @@ TDFSLogger目前只能用来诊断系统故障。
 ![]()
 
 此时DN1（DN2、DN3类似）下的情况：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/dnstart_dir.jpg)
+![](Pics/dnstart_dir.jpg)
 
 DN1在初始化时创建了100个空的数据块文件。
 
@@ -377,7 +377,7 @@ DN1在初始化时创建了100个空的数据块文件。
 **1）数据文件准备：**
 先准备一些文件来作为测试。
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/fileprepare.jpg)
+![](Pics/fileprepare.jpg)
 
 文件都是差不多600多B，因此会被切分为7个块，其中最后一个块是没满的。
 
@@ -424,32 +424,32 @@ BIG FILE: 2019/10/31 17:05:05 Demo.go:48: 9 th line of this big file.
 ```
 go run TinyDFS/Client.go -putfile "AFile.txt"
 ```
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putafile_shell.jpg)
+![](Pics/putafile_shell.jpg)
 
 此时NN窗口的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_nnshell.jpg)
+![](Pics/putfile_nnshell.jpg)
 
 这里Shell输出信息主要说明了两点：一是文件块发给DN是否成功（*后面跟的输出），二是最后这个文件的各个块数据存在哪里（#后面跟的输出）。从这张图可以看出第0个块存在[{http://localhost:11091 0} {http://localhost:11092 0}]，之所以存在两个地方是因为冗余。第1个块存在[{http://localhost:11093 0} {http://localhost:11091 1}]...
 
 此时DN1窗口的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn1shell.jpg)
+![](Pics/putfile_dn1shell.jpg)
 
 此时DN2窗口的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn2shell.jpg)
+![](Pics/putfile_dn2shell.jpg)
 
 此时DN3窗口的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn3shell.jpg)
+![](Pics/putfile_dn3shell.jpg)
 
 
 然后可以发现NN工作目录下：
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_nndir.jpg)
+![](Pics/putfile_nndir.jpg)
 出现了空的AFile目录，并且在DN1中：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn1dir.jpg)
+![](Pics/putfile_dn1dir.jpg)
 并且在DN2中：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn2dir.jpg)
+![](Pics/putfile_dn2dir.jpg)
 并且在DN3中：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_dn3dir.jpg)
+![](Pics/putfile_dn3dir.jpg)
 
 这里81大小的那个块就是文件的最后一个块数据。
 
@@ -462,7 +462,7 @@ go run TinyDFS/Client.go -putfile "BFile.txt"
 go run TinyDFS/Client.go -putfile "SmallFile.txt"
 ```
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putfile_bsmall.jpg)
+![](Pics/putfile_bsmall.jpg)
 
 ### 3.3 TDFS 读取（Get）功能演示
 在Client的窗口键入：
@@ -473,19 +473,19 @@ go run TinyDFS/Client.go -getfile "AFile"
 
 Client的Shell输出
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_cshell.jpg)
+![](Pics/getafile_cshell.jpg)
 
 NN的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_nnshell.jpg)
+![](Pics/getafile_nnshell.jpg)
 
 DN1的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_dn1shell.jpg)
+![](Pics/getafile_dn1shell.jpg)
 
 DN2的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_dn2shell.jpg)
+![](Pics/getafile_dn2shell.jpg)
 
 DN3的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_dn3shell.jpg)
+![](Pics/getafile_dn3shell.jpg)
 
 前面我们已经知道AFile的文件块数据是存储:
 ```
@@ -510,15 +510,15 @@ DN3的Shell输出
 因此，获取块数据时，如果块数据的第一个副本的数据是对的，就直接返回。通过比对可以发现获取块数据的操作是正确的。
 
 此时在客户端的$GOPATH：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_cdir.jpg)
+![](Pics/getafile_cdir.jpg)
 这里的local-AFile就是从TDFS中读取的AFile本地拷贝，虽然文件格式不一样，但是数据内容和AFile一样的。
 
 以及NN的工作目录下：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getafile_nndir.jpg)
+![](Pics/getafile_nndir.jpg)
 
 打开Client下的local-AFile（读取文件）和AFile（原文件）、NN下的nn-AFile（NN缓存文件）：
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getfile_compare.jpg)
+![](Pics/getfile_compare.jpg)
 
 可以发现文件数据是一致的，因此这不仅证明了文件被TDFS有效读取，也被TDFS有效存储，而且也验证了NN的文件缓存功能。
 
@@ -529,10 +529,10 @@ go run TinyDFS/Client.go -getfile "BFile"
 go run TinyDFS/Client.go -getfile "SmallFile"
 ```
 Client的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getbsmallfile_cshell.jpg)
+![](Pics/getbsmallfile_cshell.jpg)
 
 Client的$GOPATH文件：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/getbsmallfile_cdir.jpg)
+![](Pics/getbsmallfile_cdir.jpg)
 
 以上也可以证明BFile、SmallFile的读取正确。
 
@@ -545,30 +545,30 @@ go run TinyDFS/Client.go -delfile "AFile"
 来从TDFS中删除AFile。
 
 Client的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_cshell.jpg)
+![](Pics/delafile_cshell.jpg)
 
 可以看到，因为文件的分块数据是冗余存储的，所以删除时也需要把所有冗余删除。
 
 NN的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_nnshell.jpg)
+![](Pics/delafile_nnshell.jpg)
 
 DN1的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn1shell.jpg)
+![](Pics/delafile_dn1shell.jpg)
 
 DN2的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn2shell.jpg)
+![](Pics/delafile_dn2shell.jpg)
 
 DN3的Shell输出
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn3shell.jpg)
+![](Pics/delafile_dn3shell.jpg)
 
 前面我们已经知道AFile的文件块数据的存储位置。
 
 此时在DN1、2、3的工作目录下，DN1目录：:
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn1dir.jpg)
+![](Pics/delafile_dn1dir.jpg)
 DN2目录：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn2dir.jpg)
+![](Pics/delafile_dn2dir.jpg)
 DN3目录：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/delafile_dn3dir.jpg)
+![](Pics/delafile_dn3dir.jpg)
 
 可以看到存储AFile的块数据都被清空了，而BFile、SmallFile的数据还存在。
 
@@ -576,16 +576,16 @@ DN3目录：
 经过以上步骤之后，TDFS内存储的文件剩下BFile和SmallFile。接下去我将BFile分块存储在TDFS中的一份副本数据进行故意破坏，看其是否有还能恢复出原来的数据。
 
 根据之前NN的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/putbfile_nnshell.jpg)
+![](Pics/putbfile_nnshell.jpg)
 
 可以得知BFile的第一个块存储在：[{http://localhost:11093 4} {http://localhost:11091 5}]。块是冗余存储的，默认是先从第一个副本（{http://localhost:11093 4}）处读取数据的。所以我们将{http://localhost:11093 4}里的块数据进破坏。http://localhost:11093  是DN3的地址。
 
 DN3的chunk-4在破坏前的数据为：
 
-![](/Users/treasersmac/Pictures/Markdown/tdfs/dn3_chunk4Good.jpg)
+![](Pics/dn3_chunk4Good.jpg)
 
 破坏为：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/dn3_chunk4Bad.jpg)
+![](Pics/dn3_chunk4Bad.jpg)
 
 在Client窗口键入：
 ```
@@ -593,13 +593,13 @@ go run TinyDFS/Client.go -getfile "BFile"
 ```
 
 Client的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/bfile_tolshell.jpg)
+![](Pics/bfile_tolshell.jpg)
 
 得到的loca-BFile：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/bfile_toldir.jpg)
+![](Pics/bfile_toldir.jpg)
 
 看上去和副本数据没有差错一样。此时查看NN的Shell输出：
-![](/Users/treasersmac/Pictures/Markdown/tdfs/bfile_tolnnshell.jpg)
+![](Pics/bfile_tolnnshell.jpg)
 
 在第3行可以看到，第一个块的第一个副本返回的数据确实是"Bbb"开头被我们破坏过的数据。
 
